@@ -1,0 +1,20 @@
+# Build folders
+[Bb]in/
+[Oo]bj/
+
+# User-specific files
+*.rsuser
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Mono auto-generated files
+mono_crash.*
+
+# VS Code settings
+.vscode/
+
+# OS files
+.DS_Store
+Thumbs.db
