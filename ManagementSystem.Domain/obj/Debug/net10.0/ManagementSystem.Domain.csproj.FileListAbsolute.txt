@@ -1,0 +1,11 @@
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/bin/Debug/net10.0/ManagementSystem.Domain.deps.json
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/bin/Debug/net10.0/ManagementSystem.Domain.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/bin/Debug/net10.0/ManagementSystem.Domain.pdb
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.GeneratedMSBuildEditorConfig.editorconfig
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.AssemblyInfoInputs.cache
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.AssemblyInfo.cs
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.csproj.CoreCompileInputs.cache
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/refint/ManagementSystem.Domain.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ManagementSystem.Domain.pdb
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Domain/obj/Debug/net10.0/ref/ManagementSystem.Domain.dll

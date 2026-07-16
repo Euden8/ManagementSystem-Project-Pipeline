@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="ManagementSystem.API/ManagementSystem.API.csproj" />
+  <Project Path="ManagementSystem.Application/ManagementSystem.Application.csproj" />
+  <Project Path="ManagementSystem.Domain/ManagementSystem.Domain.csproj" />
+  <Project Path="ManagementSystem.Infrastructure/ManagementSystem.Infrastructure.csproj" />
+</Solution>

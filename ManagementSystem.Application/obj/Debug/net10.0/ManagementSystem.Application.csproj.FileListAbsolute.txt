@@ -1,0 +1,15 @@
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/bin/Debug/net10.0/ManagementSystem.Application.deps.json
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/bin/Debug/net10.0/ManagementSystem.Application.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/bin/Debug/net10.0/ManagementSystem.Application.pdb
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/bin/Debug/net10.0/ManagementSystem.Domain.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/bin/Debug/net10.0/ManagementSystem.Domain.pdb
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.csproj.AssemblyReference.cache
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.GeneratedMSBuildEditorConfig.editorconfig
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.AssemblyInfoInputs.cache
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.AssemblyInfo.cs
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.csproj.CoreCompileInputs.cache
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/Manageme.D3692DB6.Up2Date
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/refint/ManagementSystem.Application.dll
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ManagementSystem.Application.pdb
+/Users/eudenajdini/Dev/ManagementSystem/ManagementSystem.Application/obj/Debug/net10.0/ref/ManagementSystem.Application.dll
