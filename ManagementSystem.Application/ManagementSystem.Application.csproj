@@ -2,11 +2,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ManagementSystem.Domain\ManagementSystem.Domain.csproj" />
+
+
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="14.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.10" />
+    <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="8.19.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <PropertyGroup>
