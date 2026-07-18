@@ -1,3 +1,4 @@
+using ManagementSystem.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
