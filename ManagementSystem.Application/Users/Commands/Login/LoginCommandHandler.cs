@@ -47,17 +47,17 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
             authClaims.Add(ClaimTypes.Role, userRoles.ToArray());
         }
 
-        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]!));
+        var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
-            Issuer = _configuration["JWT:ValidIssuer"],
-            Audience = _configuration["JWT:ValidAudience"],
+            Issuer = _configuration["Jwt:Issuer"],
+            Audience = _configuration["Jwt:Audience"],
             Expires = DateTime.UtcNow.AddHours(3),
             SigningCredentials = new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256),
             Claims = authClaims
         };
-
+        
         var tokenHandler = new JsonWebTokenHandler();
         return tokenHandler.CreateToken(tokenDescriptor); // Returns string cleanly
     }
