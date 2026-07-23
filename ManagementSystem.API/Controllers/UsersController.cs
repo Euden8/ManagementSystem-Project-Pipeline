@@ -14,7 +14,7 @@ public class UsersController : ControllerBase
 {
     private readonly ISender _sender;
 
-    public UsersController(ISender sender)
+    public UsersController(ISender sender)  
     {
         _sender = sender;
     }
