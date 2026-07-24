@@ -18,3 +18,5 @@ mono_crash.*
 # OS files
 .DS_Store
 Thumbs.db
+
+.vs
