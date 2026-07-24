@@ -37,7 +37,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
             { JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() }
         };
 
-
+// Duhet bere throw error nese ska role ,  authClaims.Add(ClaimTypes.Role, userRoles);
         if (userRoles.Count == 1)
         {
             authClaims.Add(ClaimTypes.Role, userRoles[0]);
