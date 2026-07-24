@@ -12,7 +12,7 @@ public class CreatePhaseCommandHandler : IRequestHandler<CreatePhaseCommand, Gui
     {
         _context = context;
     }
-
+// to do , llogjika te kalohet ne Domain dhe konstrukstori te jete privat 
     public async Task<Guid> Handle(CreatePhaseCommand request, CancellationToken cancellationToken)
     {
         var phase = new Phase
