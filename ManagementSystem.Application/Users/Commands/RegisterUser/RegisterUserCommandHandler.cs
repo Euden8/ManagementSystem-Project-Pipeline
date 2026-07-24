@@ -23,6 +23,8 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
     public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var existingUser = await _userManager.FindByEmailAsync(request.Email);
+
+        // Perse duhet te kthehet nje string Bosh nese useri ekziston?
         if (existingUser != null)
         {
             return string.Empty;

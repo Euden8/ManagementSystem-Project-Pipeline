@@ -17,6 +17,8 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
     public async  Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.Id);
+
+        // te behet throw error nese useri nuk gjendet 
         if (user == null)
         {
             return false;
