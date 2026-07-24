@@ -14,7 +14,7 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddMediatR(cfg => 
     cfg.RegisterServicesFromAssembly(typeof(ManagementSystem.Application.Users.Commands.Login.LoginCommand).Assembly));
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString));
 
