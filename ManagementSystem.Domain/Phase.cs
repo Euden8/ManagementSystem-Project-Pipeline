@@ -1,8 +1,7 @@
-﻿
-namespace ManagementSystem.Domain
+﻿namespace ManagementSystem.Domain
 {
-    public class Phase
-    { 
+    public class Phase : BaseEntity
+    {
         public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Sequence { get; set; }
