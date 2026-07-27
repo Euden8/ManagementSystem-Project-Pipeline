@@ -8,13 +8,11 @@ namespace ManagementSystem.Infrastructure;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<PipelineProject> Projects => Set<PipelineProject>();
-    public DbSet<Phase> Phases => Set<Phase>();
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
-    public DbSet<Phase> Phases { get; set; }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)

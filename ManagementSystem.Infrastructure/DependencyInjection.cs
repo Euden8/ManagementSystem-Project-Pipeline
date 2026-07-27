@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Infrastructure.Persistence.Repositories;
 
 namespace ManagementSystem.Infrastructure;
@@ -15,7 +14,7 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));
 
-        services.AddScoped<IProjectRepository, ProjectRepository>();
+       // services.AddScoped<IProjectRepository, ProjectRepository>();
 
         return services;
     }
