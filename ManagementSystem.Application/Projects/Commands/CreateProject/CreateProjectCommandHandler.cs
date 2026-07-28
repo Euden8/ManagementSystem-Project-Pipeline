@@ -2,6 +2,7 @@
 using FluentValidation.Results;
 using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain.Entities;
+using ManagementSystem.Infrastructure.Persistence.Repositories;
 using MediatR;
 
 namespace ManagementSystem.Application.Projects.Commands.CreateProject;
@@ -44,17 +45,7 @@ public sealed class CreateProjectCommandHandler
             });
         }
 
-        if (!await _projectRepository.PhaseExistsAsync(
-                request.CurrentPhaseId,
-                cancellationToken))
-        {
-            throw new ValidationException(new[]
-            {
-                new ValidationFailure(
-                    nameof(request.CurrentPhaseId),
-                    "The selected phase does not exist.")
-            });
-        }
+
 
         var project = new PipelineProject(
             Guid.NewGuid(),

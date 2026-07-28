@@ -1,10 +1,10 @@
-﻿using ManagementSystem.Application.Common.Interfaces;
+﻿
 using ManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManagementSystem.Infrastructure.Persistence.Repositories;
 
-public sealed class ProjectRepository : IProjectRepository
+public sealed class ProjectRepository  : IProjectRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -24,16 +24,6 @@ public sealed class ProjectRepository : IProjectRepository
                 cancellationToken);
     }
 
-    public Task<bool> PhaseExistsAsync(
-        Guid phaseId,
-        CancellationToken cancellationToken)
-    {
-        return _dbContext.Phases
-            .AnyAsync(
-                phase => phase.Id == phaseId,
-                cancellationToken);
-    }
-
     public async Task AddAsync(
         PipelineProject project,
         CancellationToken cancellationToken)
@@ -46,4 +36,18 @@ public sealed class ProjectRepository : IProjectRepository
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+}
+
+public interface IProjectRepository
+{
+    Task<bool> CodeExistsAsync(
+        string code,
+        CancellationToken cancellationToken)
+        ;
+
+    Task AddAsync(
+        PipelineProject project,
+        CancellationToken cancellationToken);
+    Task SaveChangesAsync(
+        CancellationToken cancellationToken);
 }
