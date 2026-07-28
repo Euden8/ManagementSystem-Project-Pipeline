@@ -86,28 +86,6 @@ namespace ManagementSystem.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("ManagementSystem.Domain.Entities.Phase", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<int>("Order")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Order")
-                        .IsUnique();
-
-                    b.ToTable("Phases", (string)null);
-                });
-
             modelBuilder.Entity("ManagementSystem.Domain.Entities.PipelineProject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -184,6 +162,37 @@ namespace ManagementSystem.Infrastructure.Migrations
                     b.HasIndex("CurrentPhaseId");
 
                     b.ToTable("Projects", (string)null);
+                });
+
+            modelBuilder.Entity("ManagementSystem.Domain.Phase", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("ColorHex")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsInitial")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsTerminal")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Sequence")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Phase");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -320,7 +329,7 @@ namespace ManagementSystem.Infrastructure.Migrations
 
             modelBuilder.Entity("ManagementSystem.Domain.Entities.PipelineProject", b =>
                 {
-                    b.HasOne("ManagementSystem.Domain.Entities.Phase", "CurrentPhase")
+                    b.HasOne("ManagementSystem.Domain.Phase", "CurrentPhase")
                         .WithMany()
                         .HasForeignKey("CurrentPhaseId")
                         .OnDelete(DeleteBehavior.Restrict)
