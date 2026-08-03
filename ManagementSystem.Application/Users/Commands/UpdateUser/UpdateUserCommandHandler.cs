@@ -14,14 +14,13 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
         _userManager = userManager;
     }
 
-    public async  Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+public async Task<bool> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.FindByIdAsync(request.Id);
 
-        // te behet throw error nese useri nuk gjendet 
         if (user == null)
         {
-            return false;
+            throw new Exception("User not found.");
         }
 
         user.UserName = request.Username;
@@ -29,6 +28,5 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, bool>
 
         var result = await _userManager.UpdateAsync(user);
         return result.Succeeded;
-
     }
 }
