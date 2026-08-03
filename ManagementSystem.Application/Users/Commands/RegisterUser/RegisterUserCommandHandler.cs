@@ -1,18 +1,12 @@
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using ManagementSystem.Domain;
-using Microsoft.VisualBasic;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.EntityFrameworkCore.Migrations.Operations;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-
 
 namespace ManagementSystem.Application.Users.Commands.RegisterUser;
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, string>
 {
     private readonly UserManager<ApplicationUser> _userManager;
-
     private readonly RoleManager<IdentityRole> _roleManager;
 
     public RegisterUserCommandHandler(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
@@ -20,29 +14,30 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, s
         _userManager = userManager;
         _roleManager = roleManager;
     }
+
     public async Task<string> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var existingUser = await _userManager.FindByEmailAsync(request.Email);
 
-        // Perse duhet te kthehet nje string Bosh nese useri ekziston?
         if (existingUser != null)
         {
-            return string.Empty;
+            throw new Exception("User with this email already exists.");
         }
 
         var newUser = new ApplicationUser
         {
             UserName = request.Email,
-            Email = request.Email,
-
+            Email = request.Email
         };
-        var result = await _userManager.CreateAsync( newUser , request.Password);
+
+        var result = await _userManager.CreateAsync(newUser, request.Password);
 
         if (!result.Succeeded)
         {
-            return string.Empty;
+            var errorMessages = string.Join(", ", result.Errors.Select(e => e.Description));
+            throw new Exception($"User creation failed: {errorMessages}");
         }
 
         return newUser.Id;
     }
-}    
+}

@@ -30,6 +30,11 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
 
         var userRoles = await _userManager.GetRolesAsync(user);
 
+        if (userRoles.Count == 0)
+        {
+            throw new Exception("User has no roles assigned.");
+        }
+
         var authClaims = new Dictionary<string, object>
         {
             { ClaimTypes.NameIdentifier, user.Id.ToString() },
@@ -37,16 +42,15 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
             { JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString() }
         };
 
-// Duhet bere throw error nese ska role ,  authClaims.Add(ClaimTypes.Role, userRoles);
         if (userRoles.Count == 1)
         {
             authClaims.Add(ClaimTypes.Role, userRoles[0]);
         }
-        else if (userRoles.Count > 1)
+        else
         {
             authClaims.Add(ClaimTypes.Role, userRoles.ToArray());
         }
-
+                                                         
         var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
 
         var tokenDescriptor = new SecurityTokenDescriptor
@@ -59,6 +63,6 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, string>
         };
         
         var tokenHandler = new JsonWebTokenHandler();
-        return tokenHandler.CreateToken(tokenDescriptor); // Returns string cleanly
+        return tokenHandler.CreateToken(tokenDescriptor);
     }
 }
