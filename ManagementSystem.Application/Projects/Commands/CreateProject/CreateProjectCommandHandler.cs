@@ -2,7 +2,6 @@
 using FluentValidation.Results;
 using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain.Entities;
-using ManagementSystem.Infrastructure.Persistence.Repositories;
 using MediatR;
 
 namespace ManagementSystem.Application.Projects.Commands.CreateProject;
