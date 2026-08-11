@@ -1,9 +1,11 @@
 using System.Text;
+using ManagementSystem.API.Services;
+using ManagementSystem.Application;
+using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain;
 using ManagementSystem.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity; 
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 
@@ -11,12 +13,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddInfrastructure(builder.Configuration);
-builder.Services.AddMediatR(cfg => 
-    cfg.RegisterServicesFromAssembly(typeof(ManagementSystem.Application.Users.Commands.Login.LoginCommand).Assembly));
-
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection"); 
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(connectionString));
+builder.Services.AddApplication();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -51,17 +50,15 @@ builder.Services.AddAuthentication(options =>
 });
 
 builder.Services.AddAuthorization();
-
-builder.Services.AddValidation();     
-builder.Services.AddProblemDetails();   
-builder.Services.AddOpenApi();          
+builder.Services.AddProblemDetails();
+builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); 
+    app.MapOpenApi();
     app.MapScalarApiReference();
 }
 
@@ -70,7 +67,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers(); 
+app.MapControllers();
 
 app.MapGet("/health", () => TypedResults.Ok(new { Status = "Healthy", Version = "10.0" }))
    .WithName("HealthCheck")

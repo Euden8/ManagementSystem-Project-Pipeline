@@ -2,28 +2,25 @@
 using FluentValidation.Results;
 using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain.Entities;
-using ManagementSystem.Infrastructure.Persistence.Repositories;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace ManagementSystem.Application.Projects.Commands.CreateProject;
 
-public sealed class CreateProjectCommandHandler
-    : IRequestHandler<CreateProjectCommand, Guid>
+public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, Guid>
 {
-    private readonly IProjectRepository _projectRepository;
+    private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
 
     public CreateProjectCommandHandler(
-        IProjectRepository projectRepository,
+        IApplicationDbContext context,
         ICurrentUserService currentUserService)
     {
-        _projectRepository = projectRepository;
+        _context = context;
         _currentUserService = currentUserService;
     }
 
-    public async Task<Guid> Handle(
-        CreateProjectCommand request,
-        CancellationToken cancellationToken)
+    public async Task<Guid> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
         var currentUserId = _currentUserService.UserId;
 
@@ -32,10 +29,10 @@ public sealed class CreateProjectCommandHandler
             throw new UnauthorizedAccessException(
                 "An authenticated user is required to create a project.");
         }
-        
-        if (await _projectRepository.CodeExistsAsync(
-                request.Code,
-                cancellationToken))
+
+        if (await _context.Projects
+                .IgnoreQueryFilters()
+                .AnyAsync(project => project.Code == request.Code, cancellationToken))
         {
             throw new ValidationException(new[]
             {
@@ -44,8 +41,6 @@ public sealed class CreateProjectCommandHandler
                     "A project with this code already exists.")
             });
         }
-
-
 
         var project = new PipelineProject(
             Guid.NewGuid(),
@@ -57,8 +52,7 @@ public sealed class CreateProjectCommandHandler
             currentUserId,
             request.Description);
 
-        if (request.PlannedStartDate.HasValue ||
-            request.PlannedEndDate.HasValue)
+        if (request.PlannedStartDate.HasValue || request.PlannedEndDate.HasValue)
         {
             project.SetPlannedDates(
                 request.PlannedStartDate,
@@ -66,8 +60,8 @@ public sealed class CreateProjectCommandHandler
                 currentUserId);
         }
 
-        await _projectRepository.AddAsync(project, cancellationToken);
-        await _projectRepository.SaveChangesAsync(cancellationToken);
+        _context.Projects.Add(project);
+        await _context.SaveChangesAsync(cancellationToken);
 
         return project.Id;
     }

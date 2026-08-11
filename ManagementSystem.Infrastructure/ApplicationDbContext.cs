@@ -1,3 +1,4 @@
+using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -5,16 +6,19 @@ using ManagementSystem.Domain.Entities;
 
 namespace ManagementSystem.Infrastructure;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
     public DbSet<PipelineProject> Projects => Set<PipelineProject>();
     public DbSet<ProjectPhaseHistory> ProjectPhaseHistories { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
-    
+    public DbSet<Phase> Phases => Set<Phase>();
+
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         if (!optionsBuilder.IsConfigured)
@@ -26,8 +30,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
-
-        builder.ApplyConfigurationsFromAssembly(
-        typeof(ApplicationDbContext).Assembly);
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }

@@ -9,8 +9,8 @@ public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<Applicati
     {
         var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
-        // Update database credentials if your local PostgreSQL settings differ
-        optionsBuilder.UseNpgsql("Host=localhost;Database=managementsystem_db;Username=postgres;Password=postgres");
+        // Updated to match your actual local PostgreSQL credentials
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=PipelineManagementDb;Username=postgres;Password=euden123");
 
         return new ApplicationDbContext(optionsBuilder.Options);
     }
