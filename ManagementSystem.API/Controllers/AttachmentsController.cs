@@ -1,5 +1,7 @@
 using ManagementSystem.Application.Attachments.Commands.CreateAttachment;
 using ManagementSystem.Application.Attachments.Commands.DeleteAttachment;
+using ManagementSystem.Application.Attachments.Commands.UpdateAttachment;
+using ManagementSystem.Application.Attachments.Queries.GetAttachmentById;
 using ManagementSystem.Application.Attachments.Queries.GetAttachmentsByProject;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -37,6 +39,23 @@ public class AttachmentsController : ControllerBase
     public async Task<ActionResult> Delete(Guid id)
     {
         var success = await _mediator.Send(new DeleteAttachmentCommand(id));
+        return success ? NoContent() : NotFound();
+    }
+
+    [HttpGet("{id:guid}")]
+    public async Task<ActionResult> GetById(Guid id)
+    {
+        var result = await _mediator.Send(new GetAttachmentByIdQuery(id));
+        return result is not null ? Ok(result) : NotFound();
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<ActionResult> Update(Guid id, [FromBody] UpdateAttachmentCommand command)
+    {
+        if (id != command.Id)
+            return BadRequest("Route ID and payload ID mismatch.");
+
+        var success = await _mediator.Send(command);
         return success ? NoContent() : NotFound();
     }
 }
