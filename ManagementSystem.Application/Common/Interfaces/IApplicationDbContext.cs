@@ -10,6 +10,6 @@ public interface IApplicationDbContext
     DbSet<PipelineProject> Projects { get; }
     DbSet<ProjectPhaseHistory> ProjectPhaseHistories { get; }
     DbSet<Phase> Phases { get; }
-
+    DbSet<PhaseAuditLog> PhaseAuditLogs { get; }
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

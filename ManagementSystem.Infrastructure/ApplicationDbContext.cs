@@ -12,6 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplica
     public DbSet<ProjectPhaseHistory> ProjectPhaseHistories { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
     public DbSet<Phase> Phases => Set<Phase>();
+    public DbSet<PhaseAuditLog> PhaseAuditLogs => Set<PhaseAuditLog>();
 
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

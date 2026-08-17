@@ -21,4 +21,10 @@ public class PhasesController : ControllerBase
         var id = await _mediator.Send(command);
         return Ok(new { Id = id });
     }
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var result = await _mediator.Send(new DeletePhaseCommand(id));
+        return result ? NoContent() : NotFound();
+    }
 }
