@@ -1,17 +1,25 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
-namespace ManagementSystem.Infrastructure;
+namespace ManagementSystem.Infrastructure.Persistence;
 
 public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
     public ApplicationDbContext CreateDbContext(string[] args)
     {
-        var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        // Build configuration from API project appsettings.json
+        var configuration = new ConfigurationBuilder()
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../ManagementSystem.API"))
+            .AddJsonFile("appsettings.json")
+            .Build();
 
-        // Update database credentials if your local PostgreSQL settings differ
-        optionsBuilder.UseNpgsql("Host=localhost;Database=managementsystem_db;Username=postgres;Password=postgres");
+        var builder = new DbContextOptionsBuilder<ApplicationDbContext>();
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        return new ApplicationDbContext(optionsBuilder.Options);
+        builder.UseNpgsql(connectionString);
+
+        return new ApplicationDbContext(builder.Options);
     }
 }
