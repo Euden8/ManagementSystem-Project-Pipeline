@@ -161,6 +161,30 @@ public class PipelineProject : BaseEntity
         ActualEndDate = actualEndDate;
         MarkModified(modifiedBy);
     }
+    public void MoveToPhase(Phase targetPhase, DateTime occurredAtUtc, string movedBy)
+    {
+        EnsureNotDeleted();
+
+        if (targetPhase is null)
+            throw new ArgumentNullException(nameof(targetPhase));
+
+        if (string.IsNullOrWhiteSpace(movedBy))
+            throw new ArgumentException("MovedBy cannot be empty.", nameof(movedBy));
+
+        CurrentPhaseId = targetPhase.Id;
+
+        if (!ActualStartDate.HasValue)
+        {
+            ActualStartDate = occurredAtUtc;
+        }
+
+        if (targetPhase.IsTerminal)
+        {
+            ActualEndDate = occurredAtUtc;
+        }
+
+        MarkModified(movedBy);
+    }
 
     public void SoftDelete(string deletedBy)
     {

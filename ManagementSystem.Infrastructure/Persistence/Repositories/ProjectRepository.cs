@@ -1,10 +1,9 @@
-﻿
-using ManagementSystem.Domain.Entities;
+﻿using ManagementSystem.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManagementSystem.Infrastructure.Persistence.Repositories;
 
-public sealed class ProjectRepository  : IProjectRepository
+public sealed class ProjectRepository : IProjectRepository
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -36,18 +35,31 @@ public sealed class ProjectRepository  : IProjectRepository
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
+
+    public Task<PipelineProject?> GetByIdAsync(
+        Guid id,
+        CancellationToken cancellationToken)
+    {
+        return _dbContext.Projects
+            .Include(project => project.CurrentPhase)
+            .FirstOrDefaultAsync(project => project.Id == id, cancellationToken);
+    }
 }
 
 public interface IProjectRepository
 {
     Task<bool> CodeExistsAsync(
         string code,
-        CancellationToken cancellationToken)
-        ;
+        CancellationToken cancellationToken);
 
     Task AddAsync(
         PipelineProject project,
         CancellationToken cancellationToken);
+
     Task SaveChangesAsync(
+        CancellationToken cancellationToken);
+
+    Task<PipelineProject?> GetByIdAsync(
+        Guid id,
         CancellationToken cancellationToken);
 }
