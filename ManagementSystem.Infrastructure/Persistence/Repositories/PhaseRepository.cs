@@ -19,11 +19,31 @@ public sealed class PhaseRepository : IPhaseRepository
         return _dbContext.Phases
             .FirstOrDefaultAsync(phase => phase.Id == id, cancellationToken);
     }
+
+    public async Task AddAsync(
+        Phase phase,
+        CancellationToken cancellationToken)
+    {
+        await _dbContext.Phases.AddAsync(phase, cancellationToken);
+    }
+
+    public async Task SaveChangesAsync(
+        CancellationToken cancellationToken)
+    {
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
 }
 
 public interface IPhaseRepository
 {
     Task<Phase?> GetByIdAsync(
         Guid id,
+        CancellationToken cancellationToken);
+
+    Task AddAsync(
+        Phase phase,
+        CancellationToken cancellationToken);
+
+    Task SaveChangesAsync(
         CancellationToken cancellationToken);
 }
