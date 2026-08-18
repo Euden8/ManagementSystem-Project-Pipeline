@@ -9,7 +9,11 @@ namespace ManagementSystem.Infrastructure;
 public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
 {
     public DbSet<PipelineProject> Projects => Set<PipelineProject>();
+    public DbSet<Phase> Phases => Set<Phase>();
 
+    public DbSet<ProjectPhaseHistory> ProjectPhaseHistories { get; set; }
+    public DbSet<Attachment> Attachments { get; set; }
+    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

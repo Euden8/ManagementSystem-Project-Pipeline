@@ -12,19 +12,6 @@ namespace ManagementSystem.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Phases",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Order = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Phases", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Projects",
                 columns: table => new
                 {
@@ -58,11 +45,7 @@ namespace ManagementSystem.Infrastructure.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Phases_Order",
-                table: "Phases",
-                column: "Order",
-                unique: true);
+            
 
             migrationBuilder.CreateIndex(
                 name: "IX_Projects_Code",
@@ -81,9 +64,6 @@ namespace ManagementSystem.Infrastructure.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Projects");
-
-            migrationBuilder.DropTable(
-                name: "Phases");
         }
     }
 }
