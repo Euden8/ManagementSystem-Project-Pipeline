@@ -5,10 +5,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Scalar.AspNetCore;
+using Microsoft.OpenApi;
 
 var builder = WebApplication.CreateBuilder(args);
-
 
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddMediatR(cfg => 
@@ -54,15 +53,49 @@ builder.Services.AddAuthorization();
 
 builder.Services.AddValidation();     
 builder.Services.AddProblemDetails();   
-builder.Services.AddOpenApi();          
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddOpenApi(options =>
+{
+    options.AddDocumentTransformer((document, context, cancellationToken) =>
+    {
+
+        document.Components ??= new OpenApiComponents();
+        document.Components.SecuritySchemes ??=
+            new Dictionary<string, IOpenApiSecurityScheme>();
+
+        document.Components.SecuritySchemes["Bearer"] = new OpenApiSecurityScheme
+        {
+            Type = SecuritySchemeType.Http,
+            Scheme = "bearer",
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "Paste the raw JWT — no 'Bearer ' prefix needed."
+        };
+
+
+        document.Security ??= new List<OpenApiSecurityRequirement>();
+        document.Security.Add(new OpenApiSecurityRequirement
+        {
+            [new OpenApiSecuritySchemeReference("Bearer", document)] = new List<string>()
+        });
+
+        return Task.CompletedTask;
+    });
+});
+
+
 builder.Services.AddControllers();
 
 var app = builder.Build();
-
+app.MapControllers(); 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi(); 
-    app.MapScalarApiReference();
+    app.MapOpenApi();
+    app.UseSwaggerUI(c => 
+    { 
+        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Management System API v1"); 
+    });
 }
 
 app.UseHttpsRedirection();
@@ -70,10 +103,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers(); 
+
 
 app.MapGet("/health", () => TypedResults.Ok(new { Status = "Healthy", Version = "10.0" }))
-   .WithName("HealthCheck")
-   .WithTags("System");
+    .WithName("HealthCheck")
+    .WithTags("System");
 
 app.Run();

@@ -1,10 +1,10 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using ManagementSystem.Application.Phases.Commands.CreatePhase;
-using ManagementSystem.Application.Phases.Commands.UpdatePhase;
+﻿using ManagementSystem.Application.Phases.Commands.CreatePhase;
 using ManagementSystem.Application.Phases.Commands.DeletePhase;
+using ManagementSystem.Application.Phases.Commands.UpdatePhase;
 using ManagementSystem.Application.Phases.Queries.GetAllPhases;
 using ManagementSystem.Application.Phases.Queries.GetPhaseById;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementSystem.API.Controllers;
 

@@ -1,10 +1,10 @@
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using ManagementSystem.Application.Users.Commands.Login;
 using ManagementSystem.Application.Users.Commands.RegisterUser;
 using ManagementSystem.Application.Users.Commands.UpdateUser;
 using ManagementSystem.Application.Users.Queries.GetAllUsers;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace ManagementSystem.API.Controllers;
 

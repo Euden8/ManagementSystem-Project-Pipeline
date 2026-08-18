@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using ManagementSystem.Application.Projects.Queries.GetProjectSlaMetrics;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ManagementSystem.Application.Projects.Queries.GetProjectSlaMetrics;
 
 namespace ManagementSystem.API.Controllers;
 

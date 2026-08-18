@@ -86,18 +86,20 @@ namespace ManagementSystem.Infrastructure.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-`            modelBuilder.Entity("ManagementSystem.Domain.Entities.Attachment", b =>
+            modelBuilder.Entity("ManagementSystem.Domain.Entities.Attachment", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
                     b.Property<string>("Caption")
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("ContentType")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
@@ -113,17 +115,27 @@ namespace ManagementSystem.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ExternalUrl")
-                        .HasColumnType("text");
+                        .HasMaxLength(2048)
+                        .HasColumnType("character varying(2048)");
 
                     b.Property<string>("FileName")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Kind")
-                        .HasColumnType("integer");
+                    b.Property<string>("Kind")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasColumnType("text");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -132,8 +144,8 @@ namespace ManagementSystem.Infrastructure.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("StorageKey")
-                        .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
 
                     b.Property<string>("UploadedByUserId")
                         .IsRequired()
@@ -141,7 +153,11 @@ namespace ManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Attachments");
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("UploadedByUserId");
+
+                    b.ToTable("Attachments", (string)null);
                 });
 
             modelBuilder.Entity("ManagementSystem.Domain.Entities.PipelineProject", b =>
@@ -235,14 +251,37 @@ namespace ManagementSystem.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("text");
+
                     b.Property<TimeSpan?>("DurationInPreviousPhase")
                         .HasColumnType("interval");
 
                     b.Property<Guid?>("FromPhaseId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Note")
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("ModifiedAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ModifiedBy")
                         .HasColumnType("text");
+
+                    b.Property<string>("Note")
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
 
                     b.Property<Guid>("ProjectId")
                         .HasColumnType("uuid");
@@ -252,7 +291,15 @@ namespace ManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ProjectPhaseHistories");
+                    b.HasIndex("ChangedByUserId");
+
+                    b.HasIndex("FromPhaseId");
+
+                    b.HasIndex("ProjectId");
+
+                    b.HasIndex("ToPhaseId");
+
+                    b.ToTable("ProjectPhaseHistories", (string)null);
                 });
 
             modelBuilder.Entity("ManagementSystem.Domain.Phase", b =>
@@ -283,7 +330,7 @@ namespace ManagementSystem.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Phase");
+                    b.ToTable("Phases");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

@@ -17,7 +17,7 @@ public sealed class ProjectRepository : IProjectRepository
         string code,
         CancellationToken cancellationToken)
     {
-        return _dbContext.PipelineProjects
+        return _dbContext.Projects
             .IgnoreQueryFilters()
             .AnyAsync(
                 project => project.Code == code,
@@ -28,7 +28,7 @@ public sealed class ProjectRepository : IProjectRepository
         PipelineProject project,
         CancellationToken cancellationToken)
     {
-        await _dbContext.PipelineProjects.AddAsync(project, cancellationToken);
+        await _dbContext.Projects.AddAsync(project, cancellationToken);
     }
 
     public async Task SaveChangesAsync(

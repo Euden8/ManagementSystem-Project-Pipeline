@@ -1,14 +1,14 @@
 ﻿using MediatR;
 using ManagementSystem.Domain;
-using ManagementSystem.Application.Common.Interfaces;
+using ManagementSystem.Infrastructure;
 
 namespace ManagementSystem.Application.Phases.Commands.CreatePhase;
 
 public class CreatePhaseCommandHandler : IRequestHandler<CreatePhaseCommand, Guid>
 {
-    private readonly IApplicationDbContext _context;
+    private readonly ApplicationDbContext _context;
 
-    public CreatePhaseCommandHandler(IApplicationDbContext context)
+    public CreatePhaseCommandHandler(ApplicationDbContext context)
     {
         _context = context;
     }

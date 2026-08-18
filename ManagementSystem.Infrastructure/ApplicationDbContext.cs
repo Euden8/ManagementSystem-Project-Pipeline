@@ -1,12 +1,11 @@
 using ManagementSystem.Domain;
 using ManagementSystem.Domain.Entities;
-using ManagementSystem.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace ManagementSystem.Infrastructure;
 
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser>, IApplicationDbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     public DbSet<PipelineProject> Projects => Set<PipelineProject>();
     public DbSet<Phase> Phases => Set<Phase>();
