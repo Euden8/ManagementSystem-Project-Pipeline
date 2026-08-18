@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ManagementSystem.Infrastructure.Persistence.Configurations;
 
-public class ProjectConfiguration
-    : IEntityTypeConfiguration<PipelineProject>
+public class ProjectConfiguration : IEntityTypeConfiguration<PipelineProject>
 {
     public void Configure(EntityTypeBuilder<PipelineProject> builder)
     {

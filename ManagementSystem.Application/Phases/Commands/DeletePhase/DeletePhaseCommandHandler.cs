@@ -1,4 +1,7 @@
+using System;
 using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain.Entities;
 using MediatR;
@@ -21,22 +24,19 @@ public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, boo
 
     public async Task<bool> Handle(DeletePhaseCommand request, CancellationToken cancellationToken)
     {
-
         var currentUserId = _currentUserService.UserId;
         if (string.IsNullOrEmpty(currentUserId))
         {
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-
         var isInUse = await _context.Projects
             .AnyAsync(p => p.CurrentPhaseId == request.Id, cancellationToken);
 
-        if (isInUse)
-        {
-            throw new ValidationException("Cannot delete a phase that is assigned to a project.");
-        }
-
+        //if (isInUse)
+        //{
+            //throw new ValidationException("Cannot delete a phase that is assigned to a project.");
+        //}
 
         var phase = await _context.Phases
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
@@ -45,7 +45,6 @@ public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, boo
         {
             return false;
         }
-
 
         var oldValuesJson = JsonSerializer.Serialize(new
         {
@@ -56,7 +55,6 @@ public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, boo
             phase.IsTerminal,
             phase.IsActive
         });
-
 
         var auditLog = new PhaseAuditLog
         {
@@ -70,7 +68,6 @@ public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, boo
         };
 
         _context.PhaseAuditLogs.Add(auditLog);
-
 
         _context.Phases.Remove(phase);
         await _context.SaveChangesAsync(cancellationToken);

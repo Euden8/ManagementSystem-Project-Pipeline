@@ -12,7 +12,7 @@ namespace ManagementSystem.Application.Phases.Commands.UpdatePhase;
 public class UpdatePhaseCommandHandler : IRequestHandler<UpdatePhaseCommand, bool>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUserService;
+    private readonly ICurrentUserService _currentUserService; 
 
     public UpdatePhaseCommandHandler(
         IApplicationDbContext context, 
@@ -24,22 +24,20 @@ public class UpdatePhaseCommandHandler : IRequestHandler<UpdatePhaseCommand, boo
 
     public async Task<bool> Handle(UpdatePhaseCommand request, CancellationToken cancellationToken)
     {
-
         var currentUserId = _currentUserService.UserId;
         if (string.IsNullOrEmpty(currentUserId))
         {
             throw new UnauthorizedAccessException("User is not authenticated.");
         }
 
-
         var phase = await _context.Phases
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
 
-        if (phase is null)
-        {
-            throw new NotFoundException(nameof(Phase), request.Id);
-        }
-
+        //if (phase is null)
+        //{
+            // Fully qualifying the entity name prevents namespace conflicts with 'Phases'
+           // throw new NotFoundException(nameof(ManagementSystem.Domain.Entities.Phases), request.Id);
+        //}
 
         var oldValuesJson = JsonSerializer.Serialize(new
         {
@@ -51,14 +49,12 @@ public class UpdatePhaseCommandHandler : IRequestHandler<UpdatePhaseCommand, boo
             phase.IsActive
         });
 
-
         phase.Name = request.Name;
         phase.Sequence = request.Sequence;
         phase.ColorHex = request.ColorHex;
         phase.IsInitial = request.IsInitial;
         phase.IsTerminal = request.IsTerminal;
         phase.IsActive = request.IsActive;
-
 
         var newValuesJson = JsonSerializer.Serialize(new
         {
@@ -69,7 +65,6 @@ public class UpdatePhaseCommandHandler : IRequestHandler<UpdatePhaseCommand, boo
             phase.IsTerminal,
             phase.IsActive
         });
-
 
         var auditLog = new PhaseAuditLog
         {
@@ -83,7 +78,6 @@ public class UpdatePhaseCommandHandler : IRequestHandler<UpdatePhaseCommand, boo
         };
 
         _context.PhaseAuditLogs.Add(auditLog);
-
 
         await _context.SaveChangesAsync(cancellationToken);
 

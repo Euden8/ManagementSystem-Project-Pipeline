@@ -4,8 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ManagementSystem.Infrastructure.Persistence.Configurations;
 
-public class PhaseAuditLogConfiguration
-    : IEntityTypeConfiguration<PipelineProject>
+public class PhaseAuditLogConfiguration : IEntityTypeConfiguration<PipelineProject>
 {
     public void Configure(EntityTypeBuilder<PhaseAuditLog> builder)
     {
@@ -16,7 +15,7 @@ public class PhaseAuditLogConfiguration
         builder.Property(x => x.Action)
             .isRequired()
             .HasMaxLength(100);
-
+ 
         builder.Property(x => x.ChangedByUserId)
             .IsRequired()
             .HasMaxLength(450);
