@@ -94,7 +94,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.UseSwaggerUI(c => 
     { 
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "Management System API v1"); 
+        c.SwaggerEndpoint("/openapi/v1.json", "Management System API v1");
     });
 }
 
