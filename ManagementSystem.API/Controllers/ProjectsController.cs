@@ -1,4 +1,5 @@
-﻿using ManagementSystem.Application.Projects.Queries.GetProjectSlaMetrics;
+﻿using ManagementSystem.Application.Projects.Queries.GetProjectScheduleVariance;
+using ManagementSystem.Application.Projects.Queries.GetProjectSlaMetrics;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +22,14 @@ public class ProjectsController : ControllerBase
         [FromQuery] double thresholdDays = 30)
     {
         var result = await _mediator.Send(new GetProjectSlaMetricsQuery(id, thresholdDays));
+        return Ok(result);
+    }
+
+    [HttpGet("schedule-variance")]
+    public async Task<ActionResult<List<ProjectScheduleVarianceDto>>> GetScheduleVariance(
+    [FromQuery] bool atRiskOnly = true)
+    {
+        var result = await _mediator.Send(new GetProjectScheduleVarianceQuery(atRiskOnly));
         return Ok(result);
     }
 }
