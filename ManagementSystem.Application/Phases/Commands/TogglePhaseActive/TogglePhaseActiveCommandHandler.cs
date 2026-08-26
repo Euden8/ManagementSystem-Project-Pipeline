@@ -1,16 +1,16 @@
-﻿using ManagementSystem.Application.Common.Interfaces;
+using ManagementSystem.Application.Common.Interfaces;
 using ManagementSystem.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace ManagementSystem.Application.Phases.Commands.DeletePhase;
+namespace ManagementSystem.Application.Phases.Commands.TogglePhaseActive;
 
-public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, bool>
+public class TogglePhaseActiveCommandHandler : IRequestHandler<TogglePhaseActiveCommand, bool>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
 
-    public DeletePhaseCommandHandler(
+    public TogglePhaseActiveCommandHandler(
         IApplicationDbContext context,
         ICurrentUserService currentUserService)
     {
@@ -18,26 +18,27 @@ public class DeletePhaseCommandHandler : IRequestHandler<DeletePhaseCommand, boo
         _currentUserService = currentUserService;
     }
 
-    public async Task<bool> Handle(DeletePhaseCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(TogglePhaseActiveCommand request, CancellationToken cancellationToken)
     {
         var phase = await _context.Phases
             .FirstOrDefaultAsync(p => p.Id == request.Id, cancellationToken);
+        
+        if (phase is null)
+            return false;   
+        
 
-       
-        if (phase is null || !phase.IsActive) 
-            return false;
-
-        var previousState = phase.IsActive;
-        phase.IsActive = false;
+        var oldValues = $"IsActive: {phase.IsActive}";
+        
+        phase.IsActive = !phase.IsActive;
 
         _context.PhaseAuditLogs.Add(new PhaseAuditLog
         {
             Id = Guid.NewGuid(),
             PhaseId = phase.Id,
-            Action = "Deleted (Soft)",
+            Action = phase.IsActive ? "Activated" : "Deactivated",
             ChangedByUserId = _currentUserService.UserId ?? "System",
             ChangedAt = DateTime.UtcNow,
-            OldValues = $"IsActive: {previousState}",
+            OldValues = oldValues, // <-- Fixed here
             NewValues = $"IsActive: {phase.IsActive}"
         });
 

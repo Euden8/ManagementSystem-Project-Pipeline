@@ -16,12 +16,13 @@ public static class DependencyInjection
         services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(connectionString));
 
-        services.AddScoped<ApplicationDbContext>(provider =>
+
+        services.AddScoped<IApplicationDbContext>(provider =>
             provider.GetRequiredService<ApplicationDbContext>());
 
-        // FIX: Register IProjectRepository here!
+
         services.AddScoped<IProjectRepository, ProjectRepository>();
-        services.AddScoped<ICurrentUserService,CurrentUserService>();
+        services.AddScoped<ICurrentUserService, CurrentUserService>();
 
         return services;
     }
