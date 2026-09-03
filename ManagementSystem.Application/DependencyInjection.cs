@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using ManagementSystem.Application.Common.Behaviors;
-using ManagementSystem.Application.Common.Interfaces;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,14 +7,12 @@ namespace ManagementSystem.Application;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddApplication(
-        this IServiceCollection services)
+    public static IServiceCollection AddApplication(this IServiceCollection services)
     {
         services.AddMediatR(configuration =>
-            configuration.RegisterServicesFromAssembly(
-                typeof(DependencyInjection).Assembly));
-        services.AddValidatorsFromAssembly(
-            typeof(DependencyInjection).Assembly);
+            configuration.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
+
+        services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
 
         services.AddTransient(
             typeof(IPipelineBehavior<,>),
