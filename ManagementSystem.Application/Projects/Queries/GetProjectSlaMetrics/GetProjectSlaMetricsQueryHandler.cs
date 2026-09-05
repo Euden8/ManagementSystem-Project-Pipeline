@@ -14,7 +14,7 @@ public class GetProjectSlaMetricsQueryHandler : IRequestHandler<GetProjectSlaMet
 
     public Task<ProjectSlaMetricsDto> Handle(GetProjectSlaMetricsQuery request, CancellationToken cancellationToken)
     {
-        // Placeholder logic until ProjectPhaseHistory entity and repository queries are merged
+        // temporary satisfying condition
         var phaseDurations = new List<PhaseDurationDto>();
 
         double totalCycleTimeDays = phaseDurations.Sum(p => p.DurationDays);
